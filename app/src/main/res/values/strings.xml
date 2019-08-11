@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyOrders</string>
+    <string name="item_menu_edit">Edit</string>
+    <string name="item_menu_delete">Delete</string>
+</resources>

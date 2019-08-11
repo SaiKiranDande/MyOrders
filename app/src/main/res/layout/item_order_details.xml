@@ -1,0 +1,122 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="orderDetails"
+                  type="com.example.myorders.OrderDetails"/>
+    </data>
+
+
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginStart="8dp"
+                 android:layout_marginEnd="8dp"
+                 android:layout_marginTop="10dp"
+                 android:background="@drawable/item_background">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:padding="8dp"
+                      android:layout_marginTop="16dp"
+                      android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/item_customer_name_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Customer Name"
+                    android:text="@{orderDetails.customer_name}"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="normal"/>
+
+            <TextView
+                    android:id="@+id/item_order_name_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Order Name"
+                    android:text="@{orderDetails.order_name}"
+                    android:layout_marginTop="4dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif-medium"/>
+
+            <TextView
+                    android:id="@+id/item_customer_address_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Customer Address"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif"/>
+            <TextView
+                    android:id="@+id/item_customer_phn_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Customer Phone Number"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/item_order_date_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_weight="1"
+                        tools:text="Order Date"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="sans-serif"/>
+
+                <TextView
+                        android:id="@+id/item_order_total_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        tools:text="Order Date"
+                        android:gravity="end"
+                        android:textSize="14sp"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="sans-serif"/>
+
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="0.6dp"
+                  android:layout_marginTop="8dp"
+                  android:visibility="gone"
+                  android:background="@color/colorSecondary"/>
+
+        </LinearLayout>
+
+        <ImageView
+                android:id="@+id/item_order_more_iv"
+                android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/ic_action_more"
+                   android:padding="6dp"
+                   android:layout_gravity="end"/>
+    </FrameLayout>
+</layout>
