@@ -8,6 +8,14 @@ import android.location.LocationListener
 import android.os.Bundle
 import java.io.IOException
 import java.util.*
+import android.R.string.cancel
+import android.content.DialogInterface
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import android.location.LocationManager
+import androidx.core.content.ContextCompat.getSystemService
+
+
 
 class MyLocationListener constructor(val context: Context, val listner: MyLocationListener.SetonLocationListner) :
     LocationListener {

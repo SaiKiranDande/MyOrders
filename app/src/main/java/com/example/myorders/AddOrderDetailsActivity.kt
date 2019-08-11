@@ -3,6 +3,8 @@ package com.example.myorders
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
@@ -25,7 +27,7 @@ import java.util.*
 
 /**
  * In this activity we are adding and updating the Order details
- * And check for location access
+ * And check for location access, it will take the user current geolocation and adds to edit text view
  */
 
 @RuntimePermissions
@@ -63,14 +65,7 @@ class AddOrderDetailsActivity : AppCompatActivity(), SetTime.SetonDateTimeSelect
         title = if (editOrder == null)
             "Add Order details"
         else "Update Order details"
-        if (!canGetLocation()) {
-            AlertDialog.Builder(this).setMessage("Please enable location")
-                .setPositiveButton("Yes") { dialog, which ->
-                    dialog.dismiss()
-                    if (!canGetLocation())
-                        "Please enable location".showAsToast(this)
-                }.show()
-        }
+        locationStatusCheck()
         setUpDate()
         initFirebase()
     }
@@ -211,25 +206,6 @@ class AddOrderDetailsActivity : AppCompatActivity(), SetTime.SetonDateTimeSelect
         return false
     }
 
-    //Checks for is the location enabled or not
-    fun canGetLocation(): Boolean {
-        return isLocationEnabled(this) // application context
-    }
-
-    //Checks for is the location enabled or not
-    fun isLocationEnabled(context: Context): Boolean {
-        var locationMode = 0
-        val locationProviders: String
-
-        try {
-            locationMode = Settings.Secure.getInt(context.contentResolver, Settings.Secure.LOCATION_MODE)
-        } catch (e: Settings.SettingNotFoundException) {
-            e.printStackTrace()
-        }
-        return locationMode != Settings.Secure.LOCATION_MODE_OFF
-
-    }
-
     @Subscribe(sticky = true)
     fun onEditDetailsEvent(event: EditDetailsEvent) {
         editOrder = event.orderDetails
@@ -293,6 +269,24 @@ class AddOrderDetailsActivity : AppCompatActivity(), SetTime.SetonDateTimeSelect
         val address = "$city, $state"
         if (editOrder == null)
             customer_address_et.setText(address)
+    }
+
+    //Check for location GPS status
+    private fun locationStatusCheck() {
+        val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps()
+        }
+    }
+
+    private fun buildAlertMessageNoGps() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Your GPS seems to be disabled\nplease enable to continue")
+            .setCancelable(false)
+            .setPositiveButton("Yes",
+                DialogInterface.OnClickListener { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) })
+        val alert = builder.create()
+        alert.show()
     }
 
 }
