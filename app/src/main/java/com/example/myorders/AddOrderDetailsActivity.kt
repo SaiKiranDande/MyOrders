@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -66,6 +67,7 @@ class AddOrderDetailsActivity : AppCompatActivity(), SetTime.SetonDateTimeSelect
             "Add Order details"
         else "Update Order details"
         locationStatusCheck()
+        checkForInternetConection()
         setUpDate()
         initFirebase()
     }
@@ -287,6 +289,21 @@ class AddOrderDetailsActivity : AppCompatActivity(), SetTime.SetonDateTimeSelect
                 DialogInterface.OnClickListener { dialog, id -> startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) })
         val alert = builder.create()
         alert.show()
+    }
+
+    //Checks for network connection
+    private fun isNetworkConnected(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        return cm.activeNetworkInfo != null
+    }
+
+    private fun checkForInternetConection() {
+        if (!isNetworkConnected())
+            androidx.appcompat.app.AlertDialog.Builder(this).setMessage("Please check your internet connection")
+                .setPositiveButton("Yes") { dialog, which -> dialog.dismiss() }
+                .setCancelable(false)
+                .show()
     }
 
 }

@@ -3,7 +3,8 @@ package com.example.myorders
 import com.chibatching.kotpref.KotprefModel
 import java.util.*
 
-public class OrderDetails(
+//POJO/data class
+class OrderDetails(
     val order_number: String? = null,
     val order_name: String = "",
     val order_due_date: Date? = null,
@@ -13,6 +14,8 @@ public class OrderDetails(
     val order_total: String = ""
 )
 
+
+//KotprefModel kind of (shared preference in java)
 object UserPreference : KotprefModel() {
     var userEmail: String by stringPrefVar("")
     var password: String by stringPrefVar("")

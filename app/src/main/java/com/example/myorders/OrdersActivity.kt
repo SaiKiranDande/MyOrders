@@ -44,6 +44,7 @@ class OrdersActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_orders)
+        supportActionBar
         eventBus = EventBus.getDefault()
         database = FirebaseDatabase.getInstance()
         initViews()
@@ -63,9 +64,16 @@ class OrdersActivity : AppCompatActivity() {
         super.onResume()
         if (isNetworkConnected()) {
             order_progress.visibility = View.VISIBLE
+            order_empty_tv.visibility = View.GONE
             getDataList()
         } else {
-            "Please check your internet connection".showAsToast(this)
+            AlertDialog.Builder(this).setMessage("Please check your internet connection")
+                .setPositiveButton("Yes") { dialog, which -> dialog.dismiss() }
+                .setCancelable(false)
+                .show()
+
+            order_empty_tv.text = "Please enable internet \n After that Click on refresh from more options menu"
+            order_empty_tv.visibility = View.VISIBLE
         }
     }
 
@@ -118,6 +126,7 @@ class OrdersActivity : AppCompatActivity() {
                         order_empty_tv.visibility = View.GONE
                     } else {
                         order_empty_tv.visibility = View.VISIBLE
+                        order_empty_tv.text = "No results found"
                     }
                     lastAdapter.notifyDataSetChanged()
                 }
@@ -154,7 +163,7 @@ class OrdersActivity : AppCompatActivity() {
 
     //Initialing the popup menu options
     private fun initPopupMenu(order: OrderDetails, view: View, position: Int) {
-        val popup = PopupMenu(this, view, Gravity.END)
+        val popup = PopupMenu(this, view.item_order_more_iv, Gravity.CENTER)
         popup.menu.add(getString(R.string.item_menu_edit))
         popup.menu.add(getString(R.string.item_menu_delete))
         showPopup(popup, view, order, position)
@@ -277,6 +286,13 @@ class OrdersActivity : AppCompatActivity() {
             it.customer_name.contains(text, true) || it.order_name.contains(text, true)
         })
         lastAdapter.notifyDataSetChanged()
+
+        if (listOfData.isEmpty()) {
+            order_empty_tv.visibility = View.VISIBLE
+            order_empty_tv.text = "No results found"
+        } else {
+            order_empty_tv.visibility = View.GONE
+        }
     }
 
     //Logout dialog on confirmation logout from app
